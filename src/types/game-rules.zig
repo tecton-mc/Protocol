@@ -36,7 +36,7 @@ pub const GameRules = struct {
             const name = try stream.readVarString();
             const editable = try stream.readBool();
             const rule_type_raw = try stream.readVarInt();
-            const rule_type: GameRuleType = @enumFromInt(rule_type_raw);
+            const rule_type: GameRuleType = @fromBackingInt(@intCast(rule_type_raw));
 
             const value: GameRuleValue = switch (rule_type) {
                 .Bool => .{ .Bool = try stream.readBool() },
@@ -61,7 +61,7 @@ pub const GameRules = struct {
         for (rules) |rule| {
             try stream.writeVarString(rule.name);
             try stream.writeBool(rule.editable);
-            try stream.writeVarInt(@intCast(@intFromEnum(rule.type)));
+            try stream.writeVarInt(@intCast(@backingInt(rule.type)));
 
             switch (rule.value) {
                 .Bool => |val| try stream.writeBool(val),

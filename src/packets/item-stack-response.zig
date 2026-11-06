@@ -24,11 +24,11 @@ pub const ItemStackResponsePacket = struct {
 };
 
 test "item stack response status values match bedrock wire values" {
-    try std.testing.expectEqual(@as(u8, 0), @intFromEnum(ItemStackResponseStatus.Success));
-    try std.testing.expectEqual(@as(u8, 1), @intFromEnum(ItemStackResponseStatus.Error));
-    try std.testing.expectEqual(@as(u8, 28), @intFromEnum(ItemStackResponseStatus.PlayerNotInCreativeMode));
-    try std.testing.expectEqual(@as(u8, 55), @intFromEnum(ItemStackResponseStatus.CannotPlaceItem));
-    try std.testing.expectEqual(@as(u8, 67), @intFromEnum(ItemStackResponseStatus.ScreenStackError));
+    try std.testing.expectEqual(@as(u8, 0), @backingInt(ItemStackResponseStatus.Success));
+    try std.testing.expectEqual(@as(u8, 1), @backingInt(ItemStackResponseStatus.Error));
+    try std.testing.expectEqual(@as(u8, 28), @backingInt(ItemStackResponseStatus.PlayerNotInCreativeMode));
+    try std.testing.expectEqual(@as(u8, 55), @backingInt(ItemStackResponseStatus.CannotPlaceItem));
+    try std.testing.expectEqual(@as(u8, 67), @backingInt(ItemStackResponseStatus.ScreenStackError));
 }
 
 test "successful item stack response serializes container updates" {
@@ -68,11 +68,11 @@ test "successful item stack response serializes container updates" {
 
     try std.testing.expectEqual(Packet.ItemStackResponse, try read_stream.readVarInt());
     try std.testing.expectEqual(@as(u32, 1), try read_stream.readVarInt());
-    try std.testing.expectEqual(@as(u8, @intFromEnum(ItemStackResponseStatus.Success)), try read_stream.readUint8());
+    try std.testing.expectEqual(@as(u8, @backingInt(ItemStackResponseStatus.Success)), try read_stream.readUint8());
     try std.testing.expectEqual(@as(i32, 42), try read_stream.readZigZag());
     try std.testing.expect(try read_stream.readBool());
     try std.testing.expectEqual(@as(u32, 1), try read_stream.readVarInt());
-    try std.testing.expectEqual(ContainerName.Inventory, @as(ContainerName, @enumFromInt(try read_stream.readUint8())));
+    try std.testing.expectEqual(ContainerName.Inventory, @as(ContainerName, @fromBackingInt(@intCast(try read_stream.readUint8()))));
     try std.testing.expect(!(try read_stream.readBool()));
     try std.testing.expectEqual(@as(u32, 1), try read_stream.readVarInt());
     try std.testing.expectEqual(@as(u8, 2), try read_stream.readUint8());
@@ -113,11 +113,11 @@ test "error item stack response carries empty containers opt-in" {
 
     try std.testing.expectEqual(Packet.ItemStackResponse, try read_stream.readVarInt());
     try std.testing.expectEqual(@as(u32, 1), try read_stream.readVarInt());
-    try std.testing.expectEqual(@as(u8, @intFromEnum(ItemStackResponseStatus.CannotPlaceItem)), try read_stream.readUint8());
+    try std.testing.expectEqual(@as(u8, @backingInt(ItemStackResponseStatus.CannotPlaceItem)), try read_stream.readUint8());
     try std.testing.expectEqual(@as(i32, 7), try read_stream.readZigZag());
     try std.testing.expect(try read_stream.readBool());
     try std.testing.expectEqual(@as(u32, 1), try read_stream.readVarInt());
-    try std.testing.expectEqual(ContainerName.Inventory, @as(ContainerName, @enumFromInt(try read_stream.readUint8())));
+    try std.testing.expectEqual(ContainerName.Inventory, @as(ContainerName, @fromBackingInt(@intCast(try read_stream.readUint8()))));
     try std.testing.expect(!(try read_stream.readBool()));
     try std.testing.expectEqual(@as(u32, 0), try read_stream.readVarInt());
     try std.testing.expectEqual(buf.len, read_stream.offset);

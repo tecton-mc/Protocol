@@ -40,7 +40,7 @@ pub const AttributeName = enum {
     }
 
     pub fn fromString(str: []const u8) ?AttributeName {
-        const map = std.ComptimeStringMap(AttributeName, .{
+        const map = std.StaticStringMap(AttributeName).initComptime(.{
             .{ "minecraft:absorption", .Absorption },
             .{ "minecraft:attack_damage", .AttackDamage },
             .{ "minecraft:fall_damage", .FallDamage },

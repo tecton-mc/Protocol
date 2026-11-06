@@ -11,7 +11,7 @@ pub const InteractPacket = struct {
 
     pub fn serialize(self: *const InteractPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.Interact);
-        try stream.writeUint8(@intFromEnum(self.action));
+        try stream.writeUint8(@backingInt(self.action));
         try stream.writeVarLong(@intCast(self.actor_runtime_id));
         if (self.position) |pos| {
             try stream.writeBool(true);

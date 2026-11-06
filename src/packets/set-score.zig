@@ -20,7 +20,7 @@ pub const ScoreInfo = struct {
     name: []const u8 = "",
 
     pub fn write(stream: *BinaryStream, value: ScoreInfo) !void {
-        try stream.writeVarInt(@intFromEnum(value.scorer_type));
+        try stream.writeVarInt(@backingInt(value.scorer_type));
         const type_name: []const u8 = switch (value.scorer_type) {
             .Invalid => "remove",
             .Player => "changeplayer",

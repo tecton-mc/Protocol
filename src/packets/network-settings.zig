@@ -12,7 +12,7 @@ pub const NetworkSettings = struct {
     pub fn serialize(self: *NetworkSettings, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.NetworkSettings);
         try stream.writeUint16(self.compression_threshold, .Little);
-        try stream.writeUint16(@intFromEnum(self.compression_method), .Little);
+        try stream.writeUint16(@backingInt(self.compression_method), .Little);
         try stream.writeBool(self.client_throttle);
         try stream.writeUint8(self.client_threshold);
         try stream.writeFloat32(self.client_scalar, .Little);
@@ -29,7 +29,7 @@ pub const NetworkSettings = struct {
 
         return NetworkSettings{
             .compression_threshold = compression_threshold,
-            .compression_method = @enumFromInt(compression_method),
+            .compression_method = @fromBackingInt(@intCast(compression_method)),
             .client_throttle = client_throttle,
             .client_threshold = client_threshold,
             .client_scalar = client_scalar,

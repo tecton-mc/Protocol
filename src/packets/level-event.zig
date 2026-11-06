@@ -22,7 +22,7 @@ pub const LevelEventPacket = struct {
 
     pub fn serialize(self: *const LevelEventPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.LevelEvent);
-        try stream.writeZigZag(@intFromEnum(self.event));
+        try stream.writeZigZag(@backingInt(self.event));
         try Vector3f.write(stream, self.position);
         const v: i32 = self.data;
         const encoded: u32 = @bitCast((v +% v) ^ (v >> 31));

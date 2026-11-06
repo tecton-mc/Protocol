@@ -16,6 +16,6 @@ pub const PassengerOfBlockData = struct {
         try Vector3f.write(stream, value.offset);
         try stream.writeFloat32(value.rotation, .Little);
         try stream.writeFloat32(value.rotation_limit, .Little);
-        try stream.writeUint8(@intFromEnum(value.emote_type));
+        try stream.writeUint8(@backingInt(value.emote_type));
     }
 };

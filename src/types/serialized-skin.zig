@@ -39,7 +39,7 @@ pub const SerializedSkin = struct {
             try stream.writeInt32(@bitCast(pieceTypeOrdinal(piece.piece_type)), .Little);
 
             writePackId(stream, piece.pack_id) catch {
-                try stream.write(&[_]u8{0} ** 16);
+                try stream.write(&@as([16]u8, @splat(0)));
             };
             try stream.writeBool(piece.is_default);
             try stream.writeVarString(piece.product_id);

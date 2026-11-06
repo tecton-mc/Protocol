@@ -15,7 +15,7 @@ pub const BlockEventPacket = struct {
     pub fn serialize(self: *const BlockEventPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.BlockEvent);
         try BlockPosition.write(stream, self.position);
-        try stream.writeZigZag(@intFromEnum(self.event_type));
+        try stream.writeZigZag(@backingInt(self.event_type));
         try stream.writeZigZag(self.data);
         return stream.getBuffer();
     }

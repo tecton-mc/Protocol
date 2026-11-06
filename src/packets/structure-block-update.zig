@@ -101,9 +101,9 @@ pub const StructureEditorData = struct {
         try stream.writeVarString(value.data_field);
         try stream.writeBool(value.including_players);
         try stream.writeBool(value.bounding_box_visible);
-        try stream.writeZigZag(@intFromEnum(value.block_type));
+        try stream.writeZigZag(@backingInt(value.block_type));
         try StructureSettings.write(stream, value.settings);
-        try stream.writeUint8(@intFromEnum(value.redstone_save_mode));
+        try stream.writeUint8(@backingInt(value.redstone_save_mode));
     }
 
     pub fn read(stream: *BinaryStream) !StructureEditorData {

@@ -16,7 +16,7 @@ pub const InventorySlotPacket = struct {
 
     pub fn serialize(self: *const InventorySlotPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.InventorySlot);
-        try stream.writeVarInt(@as(u32, @bitCast(@as(i32, @intFromEnum(self.container_id)))));
+        try stream.writeVarInt(@as(u32, @bitCast(@as(i32, @backingInt(self.container_id)))));
         try stream.writeVarInt(self.slot);
 
         if (self.full_container_name) |name| {
@@ -39,7 +39,7 @@ pub const InventorySlotPacket = struct {
 
     pub fn deserialize(stream: *BinaryStream) !InventorySlotPacket {
         _ = try stream.readVarInt();
-        const container_id: ContainerId = @enumFromInt(@as(i8, @truncate(@as(i32, @bitCast(try stream.readVarInt())))));
+        const container_id: ContainerId = @fromBackingInt(@intCast(@as(i8, @truncate(@as(i32, @bitCast(try stream.readVarInt()))))));
         const slot = try stream.readVarInt();
 
         const full_container_name: ?FullContainerName = if (try stream.readBool())

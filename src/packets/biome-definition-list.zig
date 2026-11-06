@@ -22,7 +22,7 @@ pub const BiomeDefinitionListPacket = struct {
         try stream.writeVarInt(Packet.BiomeDefinitionList);
 
         const allocator = stream.allocator;
-        var strings = std.ArrayList([]const u8){ .items = &.{}, .capacity = 0 };
+        var strings: std.ArrayList([]const u8) = .empty;
         defer strings.deinit(allocator);
 
         for (self.definitions) |definition| {

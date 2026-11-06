@@ -13,7 +13,7 @@ pub const PlayerActionPacket = struct {
     pub fn deserialize(stream: *BinaryStream) !PlayerActionPacket {
         _ = try stream.readVarInt();
         const runtime_entity_id: u64 = @intCast(try stream.readVarLong());
-        const action: PlayerActionType = @enumFromInt(try stream.readZigZag());
+        const action: PlayerActionType = @fromBackingInt(@intCast(try stream.readZigZag()));
         const block_position = try BlockPosition.read(stream);
         const result_position = try BlockPosition.read(stream);
         const face = try stream.readZigZag();
@@ -30,7 +30,7 @@ pub const PlayerActionPacket = struct {
     pub fn serialize(self: *const PlayerActionPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.PlayerAction);
         try stream.writeVarLong(self.runtime_entity_id);
-        try stream.writeZigZag(@intFromEnum(self.action));
+        try stream.writeZigZag(@backingInt(self.action));
         try BlockPosition.write(stream, self.block_position);
         try BlockPosition.write(stream, self.result_position);
         try stream.writeZigZag(self.face);

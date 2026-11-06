@@ -7,13 +7,13 @@ pub const PlayStatus = struct {
 
     pub fn serialize(self: *PlayStatus, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.PlayStatus);
-        try stream.writeInt32(@intFromEnum(self.status), .Big);
+        try stream.writeInt32(@backingInt(self.status), .Big);
         return stream.getBuffer();
     }
 
     pub fn deserialize(stream: *BinaryStream) !PlayStatus {
         _ = try stream.readVarInt();
-        const status: PlayStatusEnum = @enumFromInt(try stream.readInt32(.Big));
+        const status: PlayStatusEnum = @fromBackingInt(@intCast(try stream.readInt32(.Big)));
 
         return PlayStatus{
             .status = status,

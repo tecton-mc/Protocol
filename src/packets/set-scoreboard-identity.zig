@@ -20,7 +20,7 @@ pub const SetScoreboardIdentityPacket = struct {
 
     pub fn serialize(self: *const SetScoreboardIdentityPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.SetScoreboardIdentity);
-        try stream.writeUint8(@intFromEnum(self.action));
+        try stream.writeUint8(@backingInt(self.action));
         try stream.writeVarInt(@intCast(self.entries.len));
         for (self.entries) |entry| {
             try stream.writeZigZong(entry.scoreboard_id);
@@ -36,7 +36,7 @@ pub const SetScoreboardIdentityPacket = struct {
 
     pub fn deserialize(stream: *BinaryStream, allocator: std.mem.Allocator) !SetScoreboardIdentityPacket {
         _ = try stream.readVarInt();
-        const action: SetScoreboardAction = @enumFromInt(try stream.readUint8());
+        const action: SetScoreboardAction = @fromBackingInt(@intCast(try stream.readUint8()));
         const count = try stream.readVarInt();
         const entries = try allocator.alloc(Entry, @intCast(count));
         for (0..@intCast(count)) |i| {

@@ -47,8 +47,8 @@ pub const DataItem = struct {
 
     pub fn write(self: DataItem, stream: *BinaryStream) !void {
         try stream.writeVarInt(@intCast(self.id));
-        try stream.writeVarInt(@intFromEnum(self.type));
-        try stream.writeUint8(@intFromEnum(self.type));
+        try stream.writeVarInt(@backingInt(self.type));
+        try stream.writeUint8(@backingInt(self.type));
 
         switch (self.value) {
             .Byte => |v| try stream.writeInt8(v),

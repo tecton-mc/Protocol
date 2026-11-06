@@ -14,7 +14,7 @@ pub const Disconnect = struct {
 
     pub fn serialize(self: *Disconnect, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.Disconnect);
-        try stream.writeZigZag(@intFromEnum(self.reason));
+        try stream.writeZigZag(@backingInt(self.reason));
 
         if (self.messages) |msgs| {
             try stream.writeVarInt(1);

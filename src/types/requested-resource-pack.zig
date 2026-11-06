@@ -27,7 +27,7 @@ pub const RequestedResourcePack = struct {
     }
 
     pub fn write(stream: *BinaryStream, pack: RequestedResourcePack) !void {
-        const entry = try std.fmt.allocPrint(stream.allocator, "{s}_{s}", .{ pack.uuid, pack.version });
+        const entry = try stream.allocator.print("{s}_{s}", .{ pack.uuid, pack.version });
         defer stream.allocator.free(entry);
 
         try stream.writeVarString(entry);

@@ -14,7 +14,7 @@ pub const AbilityLayer = struct {
         var available: u32 = 0;
         var enabled: u32 = 0;
         for (self.abilities) |ability_set| {
-            const bit_pos: u5 = @intFromEnum(ability_set.ability);
+            const bit_pos: u5 = @backingInt(ability_set.ability);
             available |= @as(u32, 1) << bit_pos;
             if (ability_set.value) {
                 enabled |= @as(u32, 1) << bit_pos;

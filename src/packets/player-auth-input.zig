@@ -147,10 +147,10 @@ pub const PlayerAuthInputPacket = struct {
         input_data.setFlag(.IsInClientPredictedVehicle, self.client_predicted_vehicle != 0);
         try PlayerAuthInputData.write(stream, input_data);
 
-        try stream.writeVarInt(@intCast(@intFromEnum(self.input_mode)));
-        try stream.writeVarInt(@intCast(@intFromEnum(self.play_mode)));
+        try stream.writeVarInt(@intCast(@backingInt(self.input_mode)));
+        try stream.writeVarInt(@intCast(@backingInt(self.play_mode)));
 
-        try stream.writeZigZag(@intFromEnum(self.interaction_mode));
+        try stream.writeZigZag(@backingInt(self.interaction_mode));
         try Vector2f.write(stream, self.interact_rotation);
         try stream.writeVarLong(self.input_tick);
         try Vector3f.write(stream, self.position_delta);

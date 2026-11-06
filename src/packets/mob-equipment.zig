@@ -21,7 +21,7 @@ pub const MobEquipmentPacket = struct {
         try NetworkItemStackDescriptor.writeShort(stream, self.item, stream.allocator);
         try stream.writeUint8(self.slot);
         try stream.writeUint8(self.selected_slot);
-        try stream.writeInt8(@intFromEnum(self.container_id));
+        try stream.writeInt8(@backingInt(self.container_id));
         return stream.getBuffer();
     }
 

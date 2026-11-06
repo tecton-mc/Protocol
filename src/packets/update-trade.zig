@@ -21,8 +21,8 @@ pub const UpdateTradePacket = struct {
 
     pub fn serialize(self: *UpdateTradePacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.UpdateTrade);
-        try stream.writeUint8(@bitCast(@intFromEnum(self.identifier)));
-        try stream.writeUint8(@bitCast(@intFromEnum(self.container_type)));
+        try stream.writeUint8(@bitCast(@backingInt(self.identifier)));
+        try stream.writeUint8(@bitCast(@backingInt(self.container_type)));
         try stream.writeVarInt(self.size);
         try stream.writeVarInt(self.trade_tier);
         try stream.writeZigZong(self.villager_unique_id);

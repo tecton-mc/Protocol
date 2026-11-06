@@ -16,7 +16,7 @@ pub const InventoryContentPacket = struct {
     pub fn serialize(self: *const InventoryContentPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.InventoryContent);
 
-        try stream.writeVarInt(@as(u32, @bitCast(@as(i32, @intFromEnum(self.container_id)))));
+        try stream.writeVarInt(@as(u32, @bitCast(@as(i32, @backingInt(self.container_id)))));
         try stream.writeVarInt(@intCast(self.items.len));
         for (self.items) |item| {
             try NetworkItemStackDescriptor.writeShort(stream, item, stream.allocator);

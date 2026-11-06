@@ -14,7 +14,7 @@ pub const PlayerAuthInputData = struct {
     }
 
     pub fn setFlag(self: *PlayerAuthInputData, flag: InputData, value: bool) void {
-        const flag_value: u128 = @intFromEnum(flag);
+        const flag_value: u128 = @backingInt(flag);
         const flag_bit: u128 = @as(u128, 1) << @intCast(flag_value);
 
         if (value) {
@@ -25,7 +25,7 @@ pub const PlayerAuthInputData = struct {
     }
 
     pub fn hasFlag(self: PlayerAuthInputData, flag: InputData) bool {
-        const flag_value: u128 = @intFromEnum(flag);
+        const flag_value: u128 = @backingInt(flag);
         const flag_bit: u128 = @as(u128, 1) << @intCast(flag_value);
         return (self.flags & flag_bit) != 0;
     }

@@ -26,7 +26,7 @@ pub const SetTitlePacket = struct {
 
     pub fn serialize(self: *const SetTitlePacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.SetTitle);
-        try stream.writeZigZag(@intFromEnum(self.title_type));
+        try stream.writeZigZag(@backingInt(self.title_type));
         try stream.writeVarString(self.text);
         try stream.writeZigZag(self.fade_in);
         try stream.writeZigZag(self.stay);

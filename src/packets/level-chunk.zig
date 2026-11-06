@@ -20,7 +20,7 @@ pub const LevelChunk = struct {
         try stream.writeVarInt(Packet.LevelChunk);
         try stream.writeZigZag(self.x);
         try stream.writeZigZag(self.z);
-        try stream.writeZigZag(@intFromEnum(self.dimension));
+        try stream.writeZigZag(@backingInt(self.dimension));
         try stream.writeVarInt(self.sub_chunk_count);
 
         if (self.client_request_subchunk_limit) |limit| {
@@ -49,7 +49,7 @@ pub const LevelChunk = struct {
         const x = try stream.readZigZag();
         const z = try stream.readZigZag();
         const dimension_raw = try stream.readZigZag();
-        const dimension: DimensionType = @enumFromInt(dimension_raw);
+        const dimension: DimensionType = @fromBackingInt(@intCast(dimension_raw));
 
         const sub_chunk_count = try stream.readVarInt();
 

@@ -56,7 +56,7 @@ pub const SubChunkData = struct {
         try stream.writeByte(@bitCast(sub.offset_x));
         try stream.writeByte(@bitCast(sub.offset_y));
         try stream.writeByte(@bitCast(sub.offset_z));
-        try stream.writeUint8(@intFromEnum(sub.result));
+        try stream.writeUint8(@backingInt(sub.result));
         if (sub.data) |data| {
             try stream.writeBool(true);
             try stream.writeVarInt(@intCast(data.len));
@@ -65,7 +65,7 @@ pub const SubChunkData = struct {
             try stream.writeBool(false);
         }
 
-        try stream.writeUint8(@intFromEnum(sub.height_map_type));
+        try stream.writeUint8(@backingInt(sub.height_map_type));
         if (sub.height_map_data) |hm| {
             try stream.writeBool(true);
             try writeHeightMap(stream, hm);
@@ -73,7 +73,7 @@ pub const SubChunkData = struct {
             try stream.writeBool(false);
         }
 
-        try stream.writeUint8(@intFromEnum(sub.render_height_map_type));
+        try stream.writeUint8(@backingInt(sub.render_height_map_type));
         if (sub.render_height_map_data) |rhm| {
             try stream.writeBool(true);
             try writeHeightMap(stream, rhm);

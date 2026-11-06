@@ -10,10 +10,7 @@ pub const UpdateAttributesPacket = struct {
     pub fn init(_: std.mem.Allocator, runtime_actor_id: i64, tick: u64) UpdateAttributesPacket {
         return .{
             .runtime_actor_id = runtime_actor_id,
-            .attributes = std.ArrayList(Attribute){
-                .items = &[_]Attribute{},
-                .capacity = 0,
-            },
+            .attributes = .empty,
             .tick = tick,
         };
     }

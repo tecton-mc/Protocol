@@ -11,7 +11,7 @@ pub const PlayerBlockAction = struct {
     face: i32,
 
     pub fn read(stream: *BinaryStream) !PlayerBlockAction {
-        const action: PlayerActionType = @enumFromInt(try stream.readZigZag());
+        const action: PlayerActionType = @fromBackingInt(try stream.readZigZag());
         const block_pos = try BlockPosition.read(stream);
         const face = try stream.readZigZag();
         return .{
@@ -22,7 +22,7 @@ pub const PlayerBlockAction = struct {
     }
 
     pub fn write(stream: *BinaryStream, value: PlayerBlockAction) !void {
-        try stream.writeZigZag(@intFromEnum(value.action));
+        try stream.writeZigZag(@backingInt(value.action));
         try BlockPosition.write(stream, value.block_pos);
         try stream.writeZigZag(value.face);
     }

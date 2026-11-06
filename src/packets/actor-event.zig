@@ -75,7 +75,7 @@ pub const ActorEventPacket = struct {
     pub fn serialize(self: *const ActorEventPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.ActorEvent);
         try stream.writeVarLong(self.runtime_entity_id);
-        try stream.writeUint8(@intFromEnum(self.event));
+        try stream.writeUint8(@backingInt(self.event));
         try stream.writeZigZag(self.data);
         if (self.fire_at_position) |fire_at_position| {
             try stream.writeBool(true);

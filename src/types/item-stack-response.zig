@@ -9,7 +9,7 @@ pub const ItemStackResponse = struct {
     container_info: []const StackResponseContainerInfo,
 
     pub fn write(stream: *BinaryStream, value: ItemStackResponse) !void {
-        try stream.writeUint8(@intFromEnum(value.status));
+        try stream.writeUint8(@backingInt(value.status));
         try stream.writeZigZag(value.request_id);
 
         if (value.container_info.len > 0) {

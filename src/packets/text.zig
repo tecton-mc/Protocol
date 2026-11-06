@@ -23,7 +23,7 @@ pub const TextPacket = struct {
             .Translation, .Popup, .JukeboxPopup => 2,
         };
         try stream.writeUint8(category);
-        try stream.writeUint8(@intFromEnum(self.text_type));
+        try stream.writeUint8(@backingInt(self.text_type));
 
         switch (self.text_type) {
             .Chat, .Whisper, .Announcement => {

@@ -13,8 +13,8 @@ pub const ContainerOpenPacket = struct {
 
     pub fn serialize(self: *const ContainerOpenPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.ContainerOpen);
-        try stream.writeUint8(@bitCast(@intFromEnum(self.identifier)));
-        try stream.writeUint8(@bitCast(@intFromEnum(self.container_type)));
+        try stream.writeUint8(@bitCast(@backingInt(self.identifier)));
+        try stream.writeUint8(@bitCast(@backingInt(self.container_type)));
         try BlockPosition.write(stream, self.position);
         try stream.writeZigZong(self.unique_id);
         return stream.getBuffer();

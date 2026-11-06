@@ -103,7 +103,7 @@ pub const StartGamePacket = struct {
 
         try stream.writeZigZong(self.entity_id);
         try stream.writeVarLong(self.runtime_entity_id);
-        try stream.writeZigZag(@intFromEnum(self.player_gamemode));
+        try stream.writeZigZag(@backingInt(self.player_gamemode));
         try Vector3f.write(stream, self.player_position);
         try stream.writeFloat32(self.pitch, .Little);
         try stream.writeFloat32(self.yaw, .Little);
@@ -112,9 +112,9 @@ pub const StartGamePacket = struct {
         try stream.writeVarString(self.biome_name);
         try stream.writeZigZag(self.dimension);
         try stream.writeZigZag(self.generator);
-        try stream.writeZigZag(@intFromEnum(self.world_gamemode));
+        try stream.writeZigZag(@backingInt(self.world_gamemode));
         try stream.writeBool(self.hardcore);
-        try stream.writeZigZag(@intFromEnum(self.difficulty));
+        try stream.writeZigZag(@backingInt(self.difficulty));
         try BlockPosition.write(stream, self.spawn_position);
         try stream.writeBool(self.achievements_disabled);
         try stream.writeZigZag(self.editor_world_type);
@@ -139,7 +139,7 @@ pub const StartGamePacket = struct {
         try stream.writeBool(self.experiments_previously_toggled);
         try stream.writeBool(self.bonus_chest);
         try stream.writeBool(self.map_enabled);
-        try stream.writeUint8(@intCast(@intFromEnum(self.permission_level)));
+        try stream.writeUint8(@intCast(@backingInt(self.permission_level)));
         try stream.writeInt32(self.server_chunk_tick_range, .Little);
         try stream.writeBool(self.has_locked_behavior_pack);
         try stream.writeBool(self.has_locked_resource_pack);
@@ -202,7 +202,7 @@ pub const StartGamePacket = struct {
 
         const entity_id = try stream.readZigZong();
         const runtime_entity_id: u64 = @intCast(try stream.readVarLong());
-        const player_gamemode: Gamemode = @enumFromInt(try stream.readZigZag());
+        const player_gamemode: Gamemode = @fromBackingInt(@intCast(try stream.readZigZag()));
         const player_position = try Vector3f.read(stream);
         const pitch = try stream.readFloat32(.Little);
         const yaw = try stream.readFloat32(.Little);
@@ -211,9 +211,9 @@ pub const StartGamePacket = struct {
         const biome_name = try stream.readVarString();
         const dimension = try stream.readZigZag();
         const generator = try stream.readZigZag();
-        const world_gamemode: Gamemode = @enumFromInt(try stream.readZigZag());
+        const world_gamemode: Gamemode = @fromBackingInt(@intCast(try stream.readZigZag()));
         const hardcore = try stream.readBool();
-        const difficulty: Difficulty = @enumFromInt(try stream.readZigZag());
+        const difficulty: Difficulty = @fromBackingInt(@intCast(try stream.readZigZag()));
         const spawn_position = try BlockPosition.read(stream);
         const achievements_disabled = try stream.readBool();
         const editor_world_type = try stream.readZigZag();
@@ -238,7 +238,7 @@ pub const StartGamePacket = struct {
         const experiments_previously_toggled = try stream.readBool();
         const bonus_chest = try stream.readBool();
         const map_enabled = try stream.readBool();
-        const permission_level: PermissionLevel = @enumFromInt(try stream.readUint8());
+        const permission_level: PermissionLevel = @fromBackingInt(@intCast(try stream.readUint8()));
         const server_chunk_tick_range = try stream.readInt32(.Little);
         const has_locked_behavior_pack = try stream.readBool();
         const has_locked_resource_pack = try stream.readBool();

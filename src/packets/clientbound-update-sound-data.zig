@@ -30,7 +30,7 @@ pub const ClientboundUpdateSoundDataPacket = struct {
         try stream.writeVarInt(Packet.ClientboundUpdateSoundData);
         try stream.writeInt64(self.server_sound_handle, .Little);
 
-        const type_id: u8 = @intFromEnum(std.meta.activeTag(self.event));
+        const type_id: u8 = @backingInt(std.meta.activeTag(self.event));
         try stream.writeVarInt(type_id);
         try stream.writeUint8(type_id);
         switch (self.event) {

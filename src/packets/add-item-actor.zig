@@ -94,6 +94,6 @@ test "add item actor serializes an empty item as the 8-byte empty wrapper" {
 
     // id(2) + count(2) + meta(1) + hasNetId(1) + block runtime id(1) + string len(1)
     const wrapper_start = in.offset;
-    const expected = [_]u8{0} ** 8;
+    const expected: [8]u8 = @splat(0);
     try testing.expectEqualSlices(u8, &expected, buf[wrapper_start .. wrapper_start + 8]);
 }

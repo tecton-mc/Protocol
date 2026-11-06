@@ -32,10 +32,7 @@ pub const Attribute = struct {
             .default_max = default_max,
             .default = default,
             .name = name,
-            .modifiers = std.ArrayList(AttributeModifier){
-                .items = &[_]AttributeModifier{},
-                .capacity = 0,
-            },
+            .modifiers = .empty,
             .allocator = allocator,
         };
     }
@@ -86,33 +83,33 @@ pub const Attribute = struct {
         var attribute = init(allocator, min, max, current, default_min, default_max, default, name);
 
         const modifier_count = try stream.readVarInt();
-        try attribute.modifiers.ensureTotalCapacity(@intCast(modifier_count));
+        try attribute.modifiers.ensureTotalCapacity(allocator, @intCast(modifier_count));
 
         var i: usize = 0;
         while (i < modifier_count) : (i += 1) {
             const modifier = try AttributeModifier.read(stream, allocator);
-            try attribute.modifiers.append(modifier);
+            try attribute.modifiers.append(allocator, modifier);
         }
 
         return attribute;
     }
 
     pub fn read(stream: *BinaryStream, allocator: std.mem.Allocator) !std.ArrayList(Attribute) {
-        var attributes = std.ArrayList(Attribute).init(allocator);
+        var attributes: std.ArrayList(Attribute) = .empty;
         errdefer {
             for (attributes.items) |*attr| {
                 attr.deinit();
             }
-            attributes.deinit();
+            attributes.deinit(allocator);
         }
 
         const count = try stream.readVarInt();
-        try attributes.ensureTotalCapacity(@intCast(count));
+        try attributes.ensureTotalCapacity(allocator, @intCast(count));
 
         var i: usize = 0;
         while (i < count) : (i += 1) {
             const attribute = try readSingle(stream, allocator);
-            try attributes.append(attribute);
+            try attributes.append(allocator, attribute);
         }
 
         return attributes;

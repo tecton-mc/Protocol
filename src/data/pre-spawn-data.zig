@@ -36,8 +36,8 @@ pub fn load(allocator: std.mem.Allocator) !PreSpawnData {
     try jigsaw_tag.write(&jigsaw_output, .{ .varint = true });
     const jigsaw_nbt = jigsaw_output.getBuffer();
 
-    var block_palette_list = std.ArrayList(NetworkBlockTypeDefinition){ .items = &.{}, .capacity = 0 };
-    var block_palette_nbt_list = std.ArrayList(NBT.Tag){ .items = &.{}, .capacity = 0 };
+    var block_palette_list: std.ArrayList(NetworkBlockTypeDefinition) = .empty;
+    var block_palette_nbt_list: std.ArrayList(NBT.Tag) = .empty;
 
     {
         var stream = BinaryStream.init(allocator, root.data_driven_blocks_nbt, null);
@@ -76,12 +76,12 @@ pub fn load(allocator: std.mem.Allocator) !PreSpawnData {
         }
     }
 
-    var voxel_shapes_list = std.ArrayList(SerializableVoxelShape){ .items = &.{}, .capacity = 0 };
-    var voxel_shape_cells = std.ArrayList([]u8){ .items = &.{}, .capacity = 0 };
-    var voxel_shape_xs = std.ArrayList([]f32){ .items = &.{}, .capacity = 0 };
-    var voxel_shape_ys = std.ArrayList([]f32){ .items = &.{}, .capacity = 0 };
-    var voxel_shape_zs = std.ArrayList([]f32){ .items = &.{}, .capacity = 0 };
-    var voxel_name_map = std.ArrayList(VoxelShapeNameEntry){ .items = &.{}, .capacity = 0 };
+    var voxel_shapes_list: std.ArrayList(SerializableVoxelShape) = .empty;
+    var voxel_shape_cells: std.ArrayList([]u8) = .empty;
+    var voxel_shape_xs: std.ArrayList([]f32) = .empty;
+    var voxel_shape_ys: std.ArrayList([]f32) = .empty;
+    var voxel_shape_zs: std.ArrayList([]f32) = .empty;
+    var voxel_name_map: std.ArrayList(VoxelShapeNameEntry) = .empty;
 
     {
         const parsed = try std.json.parseFromSlice(std.json.Value, a, root.voxel_shapes_json, .{});

@@ -11,8 +11,8 @@ pub const ContainerClosePacket = struct {
 
     pub fn serialize(self: *const ContainerClosePacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.ContainerClose);
-        try stream.writeInt8(@intFromEnum(self.identifier));
-        try stream.writeInt8(@intFromEnum(self.container_type));
+        try stream.writeInt8(@backingInt(self.identifier));
+        try stream.writeInt8(@backingInt(self.container_type));
         try stream.writeBool(self.server_initiated);
         return stream.getBuffer();
     }

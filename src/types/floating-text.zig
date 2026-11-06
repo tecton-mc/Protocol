@@ -11,7 +11,7 @@ const Vector3f = @import("./vector3f.zig").Vector3f;
 
 pub const FloatingText = struct {
     pub const entity_type: []const u8 = "minecraft:falling_block";
-    pub const entity_flags: i64 = @as(i64, 1) << @intFromEnum(ActorFlags.NoAI);
+    pub const entity_flags: i64 = @as(i64, 1) << @backingInt(ActorFlags.NoAI);
     pub const scale: f32 = 0.01;
     pub const bounding_box_width: f32 = 0.0;
     pub const bounding_box_height: f32 = 0.0;
@@ -49,7 +49,7 @@ pub const FloatingText = struct {
     pub fn composeNameTag(allocator: std.mem.Allocator, title: []const u8, text: []const u8) ![]u8 {
         if (title.len == 0) return allocator.dupe(u8, text);
         if (text.len == 0) return allocator.dupe(u8, title);
-        return std.fmt.allocPrint(allocator, "{s}\n{s}", .{ title, text });
+        return allocator.print("{s}\n{s}", .{ title, text });
     }
 
     pub fn buildMetadata(allocator: std.mem.Allocator, name_tag: []const u8, block_runtime_id: i32) ![]DataItem {

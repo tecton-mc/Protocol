@@ -18,8 +18,8 @@ fn jsonTypeName(value: std.json.Value) []const u8 {
 fn dupeJsonText(allocator: std.mem.Allocator, value: std.json.Value) ![]const u8 {
     return switch (value) {
         .string => |s| try allocator.dupe(u8, s),
-        .integer => |i| try std.fmt.allocPrint(allocator, "{d}", .{i}),
-        .float => |f| try std.fmt.allocPrint(allocator, "{d}", .{f}),
+        .integer => |i| try allocator.print("{d}", .{i}),
+        .float => |f| try allocator.print("{d}", .{f}),
         else => "",
     };
 }
@@ -379,9 +379,9 @@ pub const ClientData = struct {
         }
         if (self.piece_tint_colors.len > 0) allocator.free(self.piece_tint_colors);
 
-        inline for (@typeInfo(ClientData).@"struct".fields) |field| {
-            if (field.type == []const u8) {
-                const value = @field(self, field.name);
+        inline for (@typeInfo(ClientData).@"struct".field_names, @typeInfo(ClientData).@"struct".field_types) |name, FieldType| {
+            if (FieldType == []const u8) {
+                const value = @field(self, name);
                 if (value.len > 0) allocator.free(value);
             }
         }

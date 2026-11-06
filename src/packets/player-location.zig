@@ -26,7 +26,7 @@ pub const PlayerLocationPacket = struct {
     pub fn serialize(self: *const PlayerLocationPacket, stream: *BinaryStream) ![]const u8 {
         try stream.writeVarInt(Packet.PlayerLocation);
         try stream.writeZigZong(self.target_entity_id);
-        const ordinal: u32 = @intFromEnum(self.location_type);
+        const ordinal: u32 = @backingInt(self.location_type);
         try stream.writeVarInt(ordinal);
         try stream.writeZigZag(@intCast(ordinal));
         if (self.location_type == .Coordinates) {

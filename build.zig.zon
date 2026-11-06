@@ -2,15 +2,15 @@
     .name = .protocol,
     .version = "0.0.0",
     .fingerprint = 0xc8c0bc4c5e706fd7,
-    .minimum_zig_version = "0.16.0",
+    .minimum_zig_version = "0.17.0",
     .dependencies = .{
         .BinaryStream = .{
-            .url = "git+https://github.com/tecton-mc/BinaryStream?ref=master#b0953025800d6069ceccaad2315a1c8a818105b1",
-            .hash = "BinaryStream-0.0.0-gn8mmkJfAQB7hx3EiIoUs228mEqfXMqE78Fjf_Bdq7We",
+            .url = "git+https://github.com/tecton-mc/BinaryStream?ref=master#eeb1f51fc8671a400326b3f251c4d939ca3706c7",
+            .hash = "BinaryStream-0.0.0-gn8mmutlAQBoMDwXz2kdWZrOgsQ5T0AFeoYRGs_yMDVa",
         },
         .nbt = .{
-            .url = "git+https://github.com/tecton-mc/Nbt.git#c585051a99f4aa84fe82962af54ed68230022a3c",
-            .hash = "nbt-0.0.0-lsUufBbRAADwshsxsdoTDCgpvBLDRo-QUa8QdhdKQMGW",
+            .url = "git+https://github.com/tecton-mc/Nbt.git#ef855f619a77c374fae01518dfc77352df630545",
+            .hash = "nbt-0.0.0-lsUufETQAACqNZCHv3RehlPxHoOiza0BgnVz-JnGsjku",
         },
     },
     .paths = .{

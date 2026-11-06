@@ -38,7 +38,7 @@ pub const MovePlayerPacket = struct {
         try stream.writeVarLong(@intCast(self.runtime_id));
         try Vector3f.write(stream, self.position);
         try Vector3f.write(stream, self.rotation);
-        try stream.writeUint8(@intFromEnum(self.mode));
+        try stream.writeUint8(@backingInt(self.mode));
         try stream.writeBool(self.on_ground);
         try stream.writeVarLong(@intCast(self.riding_runtime_id));
 
@@ -49,7 +49,7 @@ pub const MovePlayerPacket = struct {
                 .teleportation_cause = .Unknown,
                 .source_actor_type = 0,
             };
-            try stream.writeInt32(@intFromEnum(data.teleportation_cause), .Little);
+            try stream.writeInt32(@backingInt(data.teleportation_cause), .Little);
             try stream.writeInt32(data.source_actor_type, .Little);
         }
 
@@ -63,7 +63,7 @@ pub const MovePlayerPacket = struct {
         const runtime_id: u64 = @intCast(try stream.readVarLong());
         const position = try Vector3f.read(stream);
         const rotation = try Vector3f.read(stream);
-        const mode: MoveMode = @enumFromInt(try stream.readUint8());
+        const mode: MoveMode = @fromBackingInt(@intCast(try stream.readUint8()));
         const on_ground = try stream.readBool();
         const riding_runtime_id: u64 = @intCast(try stream.readVarLong());
 

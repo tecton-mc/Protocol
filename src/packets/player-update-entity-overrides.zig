@@ -20,8 +20,8 @@ pub const PlayerUpdateEntityOverridesPacket = struct {
         try stream.writeVarInt(Packet.PlayerUpdateEntityOverrides);
         try stream.writeZigZong(self.entity_unique_id);
         try stream.writeVarInt(self.property_index);
-        try stream.writeVarInt(@intFromEnum(self.update_type));
-        try stream.writeUint8(@intFromEnum(self.update_type));
+        try stream.writeVarInt(@backingInt(self.update_type));
+        try stream.writeUint8(@backingInt(self.update_type));
         switch (self.update_type) {
             .SetIntOverride => try stream.writeInt32(self.int_value, .Little),
             .SetFloatOverride => try stream.writeFloat32(self.float_value, .Little),
@@ -40,7 +40,7 @@ pub const PlayerUpdateEntityOverridesPacket = struct {
         if (type_varuint != type_byte) {
             return error.PlayerUpdateEntityOverridesTypeMismatch;
         }
-        const update_type: UpdateType = @enumFromInt(type_varuint);
+        const update_type: UpdateType = @fromBackingInt(@intCast(type_varuint));
 
         var int_value: i32 = 0;
         var float_value: f32 = 0.0;
