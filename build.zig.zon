@@ -9,8 +9,8 @@
             .hash = "BinaryStream-0.0.0-gn8mmutlAQBoMDwXz2kdWZrOgsQ5T0AFeoYRGs_yMDVa",
         },
         .nbt = .{
-            .url = "git+https://github.com/tecton-mc/Nbt.git#ef855f619a77c374fae01518dfc77352df630545",
-            .hash = "nbt-0.0.0-lsUufETQAACqNZCHv3RehlPxHoOiza0BgnVz-JnGsjku",
+            .url = "git+https://github.com/tecton-mc/Nbt.git#8fa140e8832e2b3bd7bbcd76894b6b5e3626e436",
+            .hash = "nbt-0.0.0-lsUufOXQAAAm9aRHocGm9FYZMjgKHgahqkscqQlPICZB",
         },
     },
     .paths = .{
